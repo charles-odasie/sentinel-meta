@@ -1,0 +1,22 @@
+// Model-free dry run of the non-LLM machinery: sandbox + validator + bisect + receipt on B01 with a hand-written test.
+import fs from 'node:fs'; import path from 'node:path';
+import { jestRunner, validateRepro } from './validator.js';
+import { bisectSuspect } from './bisect.js';
+import { rawExec, runCanary } from './sandbox.js';
+import { analyseLog, RepoOracle } from './oracle.js';
+const REPO = path.resolve(import.meta.dirname, '../../..'); const APP = path.join(REPO, 'apps/mqtt-sample');
+const out = process.argv[2]; const app = path.join(out, 'app'); const hist = path.join(out, 'history');
+fs.cpSync(APP, app, { recursive: true, filter: (p) => !/(^|\/)(node_modules|coverage|dist)(\/|$)/.test(p) });
+fs.symlinkSync(path.join(APP, 'node_modules'), path.join(app, 'node_modules'), 'dir');
+console.log('apply:', (await rawExec('git', ['apply', '-p3', path.join(REPO, 'bench/bugs/B01/bug.patch')], app, 30000)).code);
+const log = fs.readFileSync(path.join(REPO, 'bench/bugs/B01/log.txt'), 'utf8');
+const a = analyseLog(log, app); const o = new RepoOracle(app, a, true);
+console.log('error:', a.errorLine, '\nframes:', a.frames.map(f => `${f.file}:${f.line}`), '\nspecs:', o.siblingSpecs());
+console.log('canary:', await runCanary());
+const test = `import { TelemetryParserService } from '../telemetry/telemetry-parser.service';
+describe('repro', () => { it('fails like production', () => { new TelemetryParserService().parse('devices/air-3/telemetry', Buffer.from(JSON.stringify({ metric: 'vibration', value: 1 }))); }); });\n`;
+const rel = 'src/__sentinel__/repro.spec.ts'; fs.mkdirSync(path.join(app, 'src/__sentinel__'), { recursive: true }); fs.writeFileSync(path.join(app, rel), test);
+const t0 = Date.now(); const v = await validateRepro(jestRunner(app), rel, a.errorLine, { log: console.log }); console.log('validator:', v.accepted, v.reasons, `${Date.now() - t0}ms`);
+const mh = await rawExec('bash', [path.join(REPO, 'bench/scripts/make-history.sh'), 'B01', hist, '--link'], REPO, 180000); const truth = mh.stdout.trim().split('\n').at(-1); console.log('history exit', mh.code, 'truth', truth, mh.stderr.slice(-200));
+const b = await bisectSuspect(hist, rel, test, { appSubdir: 'apps/mqtt-sample', log: console.log }); console.log('bisect:', b.ok, b.commit, b.subject, 'steps', b.steps, `${b.ms}ms`, 'CORRECT=', b.commit && truth && b.commit.startsWith(truth));
+if (!b.ok) console.log(b.log.slice(-1500));

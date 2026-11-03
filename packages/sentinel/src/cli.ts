@@ -19,6 +19,7 @@ Usage:
 Options:
   --out <dir>        output directory (default ./sentinel-out/<timestamp>)
   --history <dir>    git repo with 'good'/'bad' tags → bisect the suspect commit
+  --history-app <p>  path of the app inside that repo (default apps/mqtt-sample)
   --no-validator     skip the Repro Validator (ablation)
   --no-oracle        unrestricted repo access instead of the Repo Oracle (ablation)
   --no-fix           stop after the reproduction test
@@ -35,6 +36,7 @@ runSentinel({
   appDir: path.resolve(flag('repo')!),
   outDir: path.resolve(out),
   historyDir: flag('history') ? path.resolve(flag('history')!) : undefined,
+  historyAppSubdir: flag('history-app') ?? 'apps/mqtt-sample',
   scopedOracle: !has('no-oracle'),
   useValidator: !has('no-validator'),
   fix: !has('no-fix'),

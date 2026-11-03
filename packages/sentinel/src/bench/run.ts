@@ -51,13 +51,13 @@ for (const cfg of configs) for (const bugId of bugs) {
   let historyDir: string | undefined, truthCommit: string | null = null;
   if (doBisect) {
     historyDir = path.join(work, 'history');
-    const mh = await rawExec('bash', [path.join(REPO, 'bench/scripts/make-history.sh'), bugId, historyDir], REPO, 180000);
+    const mh = await rawExec('bash', [path.join(REPO, 'bench/scripts/make-history.sh'), bugId, historyDir, '--link'], REPO, 180000);
     if (mh.code !== 0) { log(`make-history failed: ${mh.stderr.slice(0, 300)}`); historyDir = undefined; }
-    else { truthCommit = mh.stdout.trim().split('\n').at(-1)?.trim() ?? null; linkModules(APP, historyDir); }
+    else { truthCommit = mh.stdout.trim().split('\n').at(-1)?.trim() ?? null; linkModules(APP, path.join(historyDir, 'apps/mqtt-sample')); }
   }
   const t0 = Date.now();
   try {
-    const r = await runSentinel({ logPath: path.join(BUGS, bugId, 'log.txt'), appDir, outDir: path.join(outRoot, `${bugId}-${cfg}`), scopedOracle: cfg !== 'no-oracle', useValidator: cfg !== 'no-validator', fix: doFix, historyDir, log });
+    const r = await runSentinel({ logPath: path.join(BUGS, bugId, 'log.txt'), appDir, outDir: path.join(outRoot, `${bugId}-${cfg}`), scopedOracle: cfg !== 'no-oracle', useValidator: cfg !== 'no-validator', fix: doFix, historyDir, historyAppSubdir: 'apps/mqtt-sample', log });
     const rec = r.receipt;
     const row: BenchRow = {
       bug: bugId, class: truth.class, config: cfg,

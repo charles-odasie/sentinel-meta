@@ -5,13 +5,16 @@
   "description": "Private, agentic bug reproducer on Meta Muse open-weight models: log in, failing test + verified fix + suspect commit + Privacy Receipt out.",
   "license": "MIT",
   "type": "module",
-  "bin": { "sentinel": "./bin/sentinel.js" },
+  "bin": {
+    "sentinel": "./bin/sentinel.js"
+  },
   "scripts": {
     "sentinel": "tsx src/cli.ts",
     "smoke": "tsx src/smoke.ts",
     "bench": "tsx src/bench/run.ts",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "dryrun": "tsx src/dryrun.ts"
   },
   "dependencies": {
     "tsx": "^4.19.2"

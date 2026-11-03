@@ -23,6 +23,7 @@ export interface RunOptions {
   useValidator?: boolean;    // false = ablation "no Repro Validator"
   fix?: boolean;
   historyDir?: string;       // git repo with `good`/`bad` tags for bisect
+  historyAppSubdir?: string; // where the app lives inside historyDir (default '.')
   testRelPath?: string;      // where the repro test is written, relative to appDir
   maxReproTurns?: number;
   maxValidatorRounds?: number;
@@ -181,7 +182,7 @@ Rules:
 
   // 4. bisect
   let bisect: BisectResult | null = null;
-  if (o.historyDir && reproAccepted && testContent) bisect = await bisectSuspect(o.historyDir, testRelPath, testContent, { log });
+  if (o.historyDir && reproAccepted && testContent) bisect = await bisectSuspect(o.historyDir, testRelPath, testContent, { log, appSubdir: o.historyAppSubdir });
 
   // 5. receipt
   const finishedAt = new Date().toISOString();

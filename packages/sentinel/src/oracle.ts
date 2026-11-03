@@ -128,14 +128,17 @@ export class RepoOracle {
     return added;
   }
 
-  /** Existing spec files next to the frame files, so the model can copy local test conventions. */
+  /** Existing spec files for the frame files (same dir, or a top-level test/ dir with a matching basename), so the model can copy local test conventions. */
   siblingSpecs(): string[] {
     const out = new Set<string>();
+    const testDirs = ['test', 'tests', '__tests__', 'spec'].map((d) => path.join(this.repoRoot, d)).filter((d) => fs.existsSync(d));
     for (const f of this.analysis.frames) {
+      const base = path.basename(f.file).replace(/\.(service|controller|module)?\.[tj]s$/, '').replace(/\.[tj]s$/, '');
       const dir = path.join(this.repoRoot, path.dirname(f.file));
-      if (!fs.existsSync(dir)) continue;
-      for (const e of fs.readdirSync(dir)) if (/\.(spec|test)\.[tj]s$/.test(e)) out.add(path.relative(this.repoRoot, path.join(dir, e)));
+      if (fs.existsSync(dir)) for (const e of fs.readdirSync(dir)) if (/\.(spec|test)\.[tj]s$/.test(e)) out.add(path.relative(this.repoRoot, path.join(dir, e)));
+      for (const td of testDirs) for (const e of fs.readdirSync(td)) if (/\.(spec|test)\.[tj]s$/.test(e) && e.startsWith(base)) out.add(path.relative(this.repoRoot, path.join(td, e)));
     }
+    if (out.size === 0) for (const td of testDirs) for (const e of fs.readdirSync(td).sort()) if (/\.(spec|test)\.[tj]s$/.test(e)) { out.add(path.relative(this.repoRoot, path.join(td, e))); break; }
     for (const s of out) this.allowed.add(s);
     return [...out];
   }
