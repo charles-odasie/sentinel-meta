@@ -1,0 +1,13 @@
+diff --git a/apps/mqtt-sample/src/telemetry/topic-matcher.service.ts b/apps/mqtt-sample/src/telemetry/topic-matcher.service.ts
+index 36e0616..b92721a 100644
+--- a/apps/mqtt-sample/src/telemetry/topic-matcher.service.ts
++++ b/apps/mqtt-sample/src/telemetry/topic-matcher.service.ts
+@@ -19,7 +19,7 @@ export class TopicMatcherService {
+   private readonly cache = new Map<string, RegExp>();
+ 
+   matches(filter: string, topic: string): boolean {
+-    if (topic.startsWith('$') && (filter.startsWith('#') || filter.startsWith('+'))) {
++    if (topic.startsWith('$') && /[+#]/.test(filter)) {
+       return false;
+     }
+     return this.compile(filter).test(topic);

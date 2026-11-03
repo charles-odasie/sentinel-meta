@@ -1,0 +1,14 @@
+diff --git a/apps/mqtt-sample/src/telemetry/ingest.service.ts b/apps/mqtt-sample/src/telemetry/ingest.service.ts
+index b326273..4d841f1 100644
+--- a/apps/mqtt-sample/src/telemetry/ingest.service.ts
++++ b/apps/mqtt-sample/src/telemetry/ingest.service.ts
+@@ -46,7 +46,8 @@ export class IngestService {
+   ) {}
+ 
+   async start(): Promise<void> {
+-    await this.registry.load();
++    // Do not block startup on the inventory service; seeds fill in when it answers.
++    this.registry.load().catch((err) => logger.error('device registry load failed', {}, err));
+     logger.info('device registry loaded', { devices: this.registry.size });
+     await this.mqtt.subscribe(TELEMETRY_FILTER, (t, p) => this.handleTelemetry(t, p));
+     await this.mqtt.subscribe(CHILD_TELEMETRY_FILTER, (t, p) => this.handleChildTelemetry(t, p));

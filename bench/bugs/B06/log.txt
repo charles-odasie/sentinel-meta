@@ -1,0 +1,20 @@
+{"ts":"2026-11-03T00:52:18.669Z","level":"info","service":"telemetry-hub","msg":"telemetry-hub starting","pid":2946,"node":"v22.23.4","env":"production"}
+{"ts":"2026-11-03T00:52:18.678Z","level":"info","service":"telemetry-hub","msg":"broker listening","port":33579,"brokerId":"hub-broker"}
+{"ts":"2026-11-03T00:52:18.777Z","level":"info","service":"telemetry-hub","msg":"mqtt client connected","port":33579,"clientId":"telemetry-hub-1"}
+{"ts":"2026-11-03T00:52:18.777Z","level":"info","service":"telemetry-hub","msg":"device registry loaded","devices":0}
+{"ts":"2026-11-03T00:52:18.787Z","level":"info","service":"telemetry-hub","msg":"ingest started","filters":["devices/+/telemetry","devices/+/children/+/telemetry","devices/+/status","$SYS/+/heartbeat"]}
+{"ts":"2026-11-03T00:52:18.831Z","level":"error","service":"telemetry-hub","msg":"message handling failed","topic":"devices/pump-1/telemetry","bytes":48}
+RegistryNotReadyError: device registry accessed before load() completed
+    at DeviceRegistryService.assertReady (apps/mqtt-sample/src/telemetry/device-registry.service.ts:110:28)
+    at DeviceRegistryService.register (apps/mqtt-sample/src/telemetry/device-registry.service.ts:43:10)
+    at DeviceRegistryService.touch (apps/mqtt-sample/src/telemetry/device-registry.service.ts:57:22)
+    at IngestService.process (apps/mqtt-sample/src/telemetry/ingest.service.ts:122:21)
+    at IngestService.handleTelemetry (apps/mqtt-sample/src/telemetry/ingest.service.ts:91:16)
+    at Object.handler (apps/mqtt-sample/src/telemetry/ingest.service.ts:52:64)
+    at <anonymous> (apps/mqtt-sample/src/mqtt/mqtt-client.service.ts:98:69)
+    at Array.map (<anonymous>)
+    at MqttClientService.run (apps/mqtt-sample/src/mqtt/mqtt-client.service.ts:98:56)
+    at MqttClientService.dispatch (apps/mqtt-sample/src/mqtt/mqtt-client.service.ts:89:23)
+{"ts":"2026-11-03T00:52:18.838Z","level":"info","service":"telemetry-hub","msg":"mqtt client closed"}
+{"ts":"2026-11-03T00:52:18.838Z","level":"info","service":"telemetry-hub","msg":"ingest stopped","readings":0,"alerts":0,"statusUpdates":0,"brokerLastBeat":null}
+{"ts":"2026-11-03T00:52:18.838Z","level":"info","service":"telemetry-hub","msg":"telemetry-hub exited","errors":1}

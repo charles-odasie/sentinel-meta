@@ -1,0 +1,15 @@
+{
+  "id": "B01",
+  "class": "null-deref",
+  "title": "Unit normalisation dereferences a missing default unit",
+  "file": "apps/mqtt-sample/src/telemetry/telemetry-parser.service.ts",
+  "lines": [
+    127,
+    127
+  ],
+  "symptom": "TypeError: Cannot read properties of undefined (reading 'toLowerCase')",
+  "error_signature": "TypeError: Cannot read properties of undefined (reading 'toLowerCase')",
+  "root_cause": "normaliseUnit() drops the empty-string fallback, so a reading with no unit for a metric that has no default unit calls toLowerCase() on undefined.",
+  "caught_by_existing_test": false,
+  "trigger": "bench/bugs/B01/trigger.ts"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "B08",
+  "class": "boundary",
+  "title": "Range validation made exclusive at both bounds",
+  "file": "apps/mqtt-sample/src/telemetry/telemetry-parser.service.ts",
+  "lines": [
+    118,
+    118
+  ],
+  "symptom": "TelemetryValidationError: humidity value 100 is outside the allowed range [0, 100]",
+  "error_signature": "TelemetryValidationError: humidity value 100 is outside the allowed range [0, 100]",
+  "root_cause": "assertInRange() uses <= and >= instead of < and >, so values exactly on the documented inclusive bounds (e.g. humidity 100) are rejected.",
+  "caught_by_existing_test": false,
+  "trigger": "bench/bugs/B08/trigger.ts"
+}

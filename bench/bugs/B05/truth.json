@@ -1,0 +1,15 @@
+{
+  "id": "B05",
+  "class": "async-race",
+  "title": "Client connection closed before in-flight handlers are drained",
+  "file": "apps/mqtt-sample/src/mqtt/mqtt-client.service.ts",
+  "lines": [
+    81,
+    84
+  ],
+  "symptom": "Error: mqtt client is not connected",
+  "error_signature": "Error: mqtt client is not connected",
+  "root_cause": "close() nulls the client and ends the connection before awaiting drain(), so a handler still running publishes its alert after the client is gone.",
+  "caught_by_existing_test": false,
+  "trigger": "bench/bugs/B05/trigger.ts"
+}

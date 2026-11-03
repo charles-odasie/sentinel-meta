@@ -1,0 +1,15 @@
+{
+  "id": "B03",
+  "class": "wildcard-logic",
+  "title": "'+' wildcard compiled to match across topic levels",
+  "file": "apps/mqtt-sample/src/telemetry/topic-matcher.service.ts",
+  "lines": [
+    58,
+    58
+  ],
+  "symptom": "TelemetryValidationError: topic \"devices/gw-1/children/node-7/telemetry\" is not a device telemetry topic",
+  "error_signature": "TelemetryValidationError: topic \"devices/gw-1/children/node-7/telemetry\" is not a device telemetry topic",
+  "root_cause": "The '+' level is compiled to '(.*)' instead of '([^/]*)', so devices/+/telemetry also matches gateway child topics and the parent telemetry handler receives a topic the parser rejects.",
+  "caught_by_existing_test": false,
+  "trigger": "bench/bugs/B03/trigger.ts"
+}

@@ -1,0 +1,20 @@
+{"ts":"2026-11-03T00:52:30.002Z","level":"info","service":"telemetry-hub","msg":"telemetry-hub starting","pid":3139,"node":"v22.23.4","env":"production"}
+{"ts":"2026-11-03T00:52:30.014Z","level":"info","service":"telemetry-hub","msg":"broker listening","port":40811,"brokerId":"hub-broker"}
+{"ts":"2026-11-03T00:52:30.117Z","level":"info","service":"telemetry-hub","msg":"mqtt client connected","port":40811,"clientId":"telemetry-hub-1"}
+{"ts":"2026-11-03T00:52:30.118Z","level":"info","service":"telemetry-hub","msg":"device registry loaded","devices":0}
+{"ts":"2026-11-03T00:52:30.128Z","level":"info","service":"telemetry-hub","msg":"ingest started","filters":["devices/+/telemetry","devices/+/children/+/telemetry","devices/+/status","$SYS/+/heartbeat"]}
+{"ts":"2026-11-03T00:52:30.170Z","level":"error","service":"telemetry-hub","msg":"message handling failed","topic":"devices/greenhouse-4/telemetry","bytes":95}
+TelemetryValidationError: humidity value 100 is outside the allowed range [0, 100]
+    at TelemetryParserService.assertInRange (apps/mqtt-sample/src/telemetry/telemetry-parser.service.ts:119:13)
+    at TelemetryParserService.toReading (apps/mqtt-sample/src/telemetry/telemetry-parser.service.ts:103:10)
+    at <anonymous> (apps/mqtt-sample/src/telemetry/telemetry-parser.service.ts:72:39)
+    at Array.map (<anonymous>)
+    at TelemetryParserService.parseFor (apps/mqtt-sample/src/telemetry/telemetry-parser.service.ts:72:18)
+    at TelemetryParserService.parse (apps/mqtt-sample/src/telemetry/telemetry-parser.service.ts:59:17)
+    at IngestService.handleTelemetry (apps/mqtt-sample/src/telemetry/ingest.service.ts:90:43)
+    at Object.handler (apps/mqtt-sample/src/telemetry/ingest.service.ts:51:64)
+    at <anonymous> (apps/mqtt-sample/src/mqtt/mqtt-client.service.ts:98:69)
+    at Array.map (<anonymous>)
+{"ts":"2026-11-03T00:52:30.181Z","level":"info","service":"telemetry-hub","msg":"mqtt client closed"}
+{"ts":"2026-11-03T00:52:30.181Z","level":"info","service":"telemetry-hub","msg":"ingest stopped","readings":0,"alerts":0,"statusUpdates":0,"brokerLastBeat":null}
+{"ts":"2026-11-03T00:52:30.182Z","level":"info","service":"telemetry-hub","msg":"telemetry-hub exited","errors":1}

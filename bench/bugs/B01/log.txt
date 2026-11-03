@@ -1,0 +1,20 @@
+{"ts":"2026-11-03T00:51:46.933Z","level":"info","service":"telemetry-hub","msg":"telemetry-hub starting","pid":2468,"node":"v22.23.4","env":"production"}
+{"ts":"2026-11-03T00:51:46.942Z","level":"info","service":"telemetry-hub","msg":"broker listening","port":32789,"brokerId":"hub-broker"}
+{"ts":"2026-11-03T00:51:47.018Z","level":"info","service":"telemetry-hub","msg":"mqtt client connected","port":32789,"clientId":"telemetry-hub-1"}
+{"ts":"2026-11-03T00:51:47.018Z","level":"info","service":"telemetry-hub","msg":"device registry loaded","devices":0}
+{"ts":"2026-11-03T00:51:47.027Z","level":"info","service":"telemetry-hub","msg":"ingest started","filters":["devices/+/telemetry","devices/+/children/+/telemetry","devices/+/status","$SYS/+/heartbeat"]}
+{"ts":"2026-11-03T00:51:47.071Z","level":"error","service":"telemetry-hub","msg":"message handling failed","topic":"devices/air-3/telemetry","bytes":28}
+TypeError: Cannot read properties of undefined (reading 'toLowerCase')
+    at TelemetryParserService.normaliseUnit (apps/mqtt-sample/src/telemetry/telemetry-parser.service.ts:127:49)
+    at TelemetryParserService.toReading (apps/mqtt-sample/src/telemetry/telemetry-parser.service.ts:105:23)
+    at <anonymous> (apps/mqtt-sample/src/telemetry/telemetry-parser.service.ts:72:39)
+    at Array.map (<anonymous>)
+    at TelemetryParserService.parseFor (apps/mqtt-sample/src/telemetry/telemetry-parser.service.ts:72:18)
+    at TelemetryParserService.parse (apps/mqtt-sample/src/telemetry/telemetry-parser.service.ts:59:17)
+    at IngestService.handleTelemetry (apps/mqtt-sample/src/telemetry/ingest.service.ts:90:43)
+    at Object.handler (apps/mqtt-sample/src/telemetry/ingest.service.ts:51:64)
+    at <anonymous> (apps/mqtt-sample/src/mqtt/mqtt-client.service.ts:98:69)
+    at Array.map (<anonymous>)
+{"ts":"2026-11-03T00:51:47.090Z","level":"info","service":"telemetry-hub","msg":"mqtt client closed"}
+{"ts":"2026-11-03T00:51:47.090Z","level":"info","service":"telemetry-hub","msg":"ingest stopped","readings":1,"alerts":0,"statusUpdates":0,"brokerLastBeat":null}
+{"ts":"2026-11-03T00:51:47.090Z","level":"info","service":"telemetry-hub","msg":"telemetry-hub exited","errors":1}

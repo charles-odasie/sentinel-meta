@@ -1,0 +1,13 @@
+diff --git a/apps/mqtt-sample/src/telemetry/topic-matcher.service.ts b/apps/mqtt-sample/src/telemetry/topic-matcher.service.ts
+index 36e0616..aa6879d 100644
+--- a/apps/mqtt-sample/src/telemetry/topic-matcher.service.ts
++++ b/apps/mqtt-sample/src/telemetry/topic-matcher.service.ts
+@@ -55,7 +55,7 @@ export class TopicMatcherService {
+     const levels = filter.split('/');
+     const hasHash = levels[levels.length - 1] === '#';
+     const body = (hasHash ? levels.slice(0, -1) : levels)
+-      .map((level) => (level === '+' ? '([^/]*)' : escapeRegExp(level)))
++      .map((level) => (level === '+' ? '(.*)' : escapeRegExp(level)))
+       .join('/');
+ 
+     let source: string;

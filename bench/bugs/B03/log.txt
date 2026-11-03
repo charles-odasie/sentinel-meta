@@ -1,0 +1,20 @@
+{"ts":"2026-11-03T00:51:57.183Z","level":"info","service":"telemetry-hub","msg":"telemetry-hub starting","pid":2658,"node":"v22.23.4","env":"production"}
+{"ts":"2026-11-03T00:51:57.193Z","level":"info","service":"telemetry-hub","msg":"broker listening","port":45327,"brokerId":"hub-broker"}
+{"ts":"2026-11-03T00:51:57.264Z","level":"info","service":"telemetry-hub","msg":"mqtt client connected","port":45327,"clientId":"telemetry-hub-1"}
+{"ts":"2026-11-03T00:51:57.264Z","level":"info","service":"telemetry-hub","msg":"device registry loaded","devices":0}
+{"ts":"2026-11-03T00:51:57.278Z","level":"info","service":"telemetry-hub","msg":"ingest started","filters":["devices/+/telemetry","devices/+/children/+/telemetry","devices/+/status","$SYS/+/heartbeat"]}
+{"ts":"2026-11-03T00:51:57.324Z","level":"error","service":"telemetry-hub","msg":"message handling failed","topic":"devices/gw-1/children/node-7/telemetry","bytes":48}
+TelemetryValidationError: topic "devices/gw-1/children/node-7/telemetry" is not a device telemetry topic
+    at TelemetryParserService.parse (apps/mqtt-sample/src/telemetry/telemetry-parser.service.ts:58:19)
+    at IngestService.handleTelemetry (apps/mqtt-sample/src/telemetry/ingest.service.ts:90:43)
+    at Object.handler (apps/mqtt-sample/src/telemetry/ingest.service.ts:51:64)
+    at <anonymous> (apps/mqtt-sample/src/mqtt/mqtt-client.service.ts:98:69)
+    at Array.map (<anonymous>)
+    at MqttClientService.run (apps/mqtt-sample/src/mqtt/mqtt-client.service.ts:98:56)
+    at MqttClientService.dispatch (apps/mqtt-sample/src/mqtt/mqtt-client.service.ts:89:23)
+    at MqttClient.<anonymous> (apps/mqtt-sample/src/mqtt/mqtt-client.service.ts:42:51)
+    at MqttClient.emit (node:events:519:28)
+    at Array.<anonymous> (apps/mqtt-sample/node_modules/mqtt/src/lib/handlers/publish.ts:302:14)
+{"ts":"2026-11-03T00:51:57.334Z","level":"info","service":"telemetry-hub","msg":"mqtt client closed"}
+{"ts":"2026-11-03T00:51:57.334Z","level":"info","service":"telemetry-hub","msg":"ingest stopped","readings":2,"alerts":0,"statusUpdates":0,"brokerLastBeat":null}
+{"ts":"2026-11-03T00:51:57.334Z","level":"info","service":"telemetry-hub","msg":"telemetry-hub exited","errors":1}

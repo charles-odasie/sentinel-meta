@@ -1,0 +1,15 @@
+{
+  "id": "B07",
+  "class": "boundary",
+  "title": "p95 index rounds past the end of short windows",
+  "file": "apps/mqtt-sample/src/telemetry/retained-state.service.ts",
+  "lines": [
+    73,
+    73
+  ],
+  "symptom": "TypeError: Cannot read properties of undefined (reading 'toFixed')",
+  "error_signature": "TypeError: Cannot read properties of undefined (reading 'toFixed')",
+  "root_cause": "The p95 index uses Math.round(0.95 * n) instead of Math.ceil(0.95 * n) - 1, which equals n (one past the last element) for windows of 10 readings or fewer.",
+  "caught_by_existing_test": false,
+  "trigger": "bench/bugs/B07/trigger.ts"
+}

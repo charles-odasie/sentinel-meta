@@ -1,0 +1,15 @@
+{
+  "id": "B02",
+  "class": "null-deref",
+  "title": "Offline sweep dereferences lastSeen of seeded, never-seen devices",
+  "file": "apps/mqtt-sample/src/telemetry/device-registry.service.ts",
+  "lines": [
+    96,
+    97
+  ],
+  "symptom": "TypeError: Cannot read properties of null (reading 'getTime')",
+  "error_signature": "TypeError: Cannot read properties of null (reading 'getTime')",
+  "root_cause": "offlineDevices() no longer skips devices whose lastSeen is null (seeded from inventory but never reported) and forces the type with a non-null assertion, so the sweep dereferences null.",
+  "caught_by_existing_test": false,
+  "trigger": "bench/bugs/B02/trigger.ts"
+}

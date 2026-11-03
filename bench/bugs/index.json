@@ -1,0 +1,122 @@
+[
+  {
+    "id": "B01",
+    "class": "null-deref",
+    "title": "Unit normalisation dereferences a missing default unit",
+    "file": "apps/mqtt-sample/src/telemetry/telemetry-parser.service.ts",
+    "lines": [
+      127,
+      127
+    ],
+    "symptom": "TypeError: Cannot read properties of undefined (reading 'toLowerCase')",
+    "error_signature": "TypeError: Cannot read properties of undefined (reading 'toLowerCase')",
+    "root_cause": "normaliseUnit() drops the empty-string fallback, so a reading with no unit for a metric that has no default unit calls toLowerCase() on undefined.",
+    "caught_by_existing_test": false,
+    "trigger": "bench/bugs/B01/trigger.ts"
+  },
+  {
+    "id": "B02",
+    "class": "null-deref",
+    "title": "Offline sweep dereferences lastSeen of seeded, never-seen devices",
+    "file": "apps/mqtt-sample/src/telemetry/device-registry.service.ts",
+    "lines": [
+      96,
+      97
+    ],
+    "symptom": "TypeError: Cannot read properties of null (reading 'getTime')",
+    "error_signature": "TypeError: Cannot read properties of null (reading 'getTime')",
+    "root_cause": "offlineDevices() no longer skips devices whose lastSeen is null (seeded from inventory but never reported) and forces the type with a non-null assertion, so the sweep dereferences null.",
+    "caught_by_existing_test": false,
+    "trigger": "bench/bugs/B02/trigger.ts"
+  },
+  {
+    "id": "B03",
+    "class": "wildcard-logic",
+    "title": "'+' wildcard compiled to match across topic levels",
+    "file": "apps/mqtt-sample/src/telemetry/topic-matcher.service.ts",
+    "lines": [
+      58,
+      58
+    ],
+    "symptom": "TelemetryValidationError: topic \"devices/gw-1/children/node-7/telemetry\" is not a device telemetry topic",
+    "error_signature": "TelemetryValidationError: topic \"devices/gw-1/children/node-7/telemetry\" is not a device telemetry topic",
+    "root_cause": "The '+' level is compiled to '(.*)' instead of '([^/]*)', so devices/+/telemetry also matches gateway child topics and the parent telemetry handler receives a topic the parser rejects.",
+    "caught_by_existing_test": false,
+    "trigger": "bench/bugs/B03/trigger.ts"
+  },
+  {
+    "id": "B04",
+    "class": "wildcard-logic",
+    "title": "$SYS guard rejects every filter containing a wildcard",
+    "file": "apps/mqtt-sample/src/telemetry/topic-matcher.service.ts",
+    "lines": [
+      22,
+      22
+    ],
+    "symptom": "UnroutedMessageError: broker delivered \"$SYS/hub-broker/heartbeat\" but no local subscription matches (subscribed: devices/+/telemetry, devices/+/children/+/telemetry, devices/+/status, $SYS/+/heartbeat)",
+    "error_signature": "UnroutedMessageError: broker delivered \"$SYS/hub-broker/heartbeat\" but no local subscription matches (subscribed: devices/+/telemetry, devices/+/children/+/telemetry, devices/+/status, $SYS/+/heartbeat)",
+    "root_cause": "The $-topic guard tests for any '+' or '#' anywhere in the filter instead of a wildcard in the first level, so '$SYS/+/heartbeat' never matches the broker heartbeat and dispatch finds no handler.",
+    "caught_by_existing_test": true,
+    "trigger": "bench/bugs/B04/trigger.ts"
+  },
+  {
+    "id": "B05",
+    "class": "async-race",
+    "title": "Client connection closed before in-flight handlers are drained",
+    "file": "apps/mqtt-sample/src/mqtt/mqtt-client.service.ts",
+    "lines": [
+      81,
+      84
+    ],
+    "symptom": "Error: mqtt client is not connected",
+    "error_signature": "Error: mqtt client is not connected",
+    "root_cause": "close() nulls the client and ends the connection before awaiting drain(), so a handler still running publishes its alert after the client is gone.",
+    "caught_by_existing_test": false,
+    "trigger": "bench/bugs/B05/trigger.ts"
+  },
+  {
+    "id": "B06",
+    "class": "async-race",
+    "title": "Registry seed load no longer awaited at startup",
+    "file": "apps/mqtt-sample/src/telemetry/ingest.service.ts",
+    "lines": [
+      49,
+      50
+    ],
+    "symptom": "RegistryNotReadyError: device registry accessed before load() completed",
+    "error_signature": "RegistryNotReadyError: device registry accessed before load() completed",
+    "root_cause": "start() fires registry.load() without awaiting it, so subscriptions go live and the first message is handled before the registry is ready.",
+    "caught_by_existing_test": false,
+    "trigger": "bench/bugs/B06/trigger.ts"
+  },
+  {
+    "id": "B07",
+    "class": "boundary",
+    "title": "p95 index rounds past the end of short windows",
+    "file": "apps/mqtt-sample/src/telemetry/retained-state.service.ts",
+    "lines": [
+      73,
+      73
+    ],
+    "symptom": "TypeError: Cannot read properties of undefined (reading 'toFixed')",
+    "error_signature": "TypeError: Cannot read properties of undefined (reading 'toFixed')",
+    "root_cause": "The p95 index uses Math.round(0.95 * n) instead of Math.ceil(0.95 * n) - 1, which equals n (one past the last element) for windows of 10 readings or fewer.",
+    "caught_by_existing_test": false,
+    "trigger": "bench/bugs/B07/trigger.ts"
+  },
+  {
+    "id": "B08",
+    "class": "boundary",
+    "title": "Range validation made exclusive at both bounds",
+    "file": "apps/mqtt-sample/src/telemetry/telemetry-parser.service.ts",
+    "lines": [
+      118,
+      118
+    ],
+    "symptom": "TelemetryValidationError: humidity value 100 is outside the allowed range [0, 100]",
+    "error_signature": "TelemetryValidationError: humidity value 100 is outside the allowed range [0, 100]",
+    "root_cause": "assertInRange() uses <= and >= instead of < and >, so values exactly on the documented inclusive bounds (e.g. humidity 100) are rejected.",
+    "caught_by_existing_test": false,
+    "trigger": "bench/bugs/B08/trigger.ts"
+  }
+]

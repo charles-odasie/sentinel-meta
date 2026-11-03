@@ -1,0 +1,15 @@
+{
+  "id": "B06",
+  "class": "async-race",
+  "title": "Registry seed load no longer awaited at startup",
+  "file": "apps/mqtt-sample/src/telemetry/ingest.service.ts",
+  "lines": [
+    49,
+    50
+  ],
+  "symptom": "RegistryNotReadyError: device registry accessed before load() completed",
+  "error_signature": "RegistryNotReadyError: device registry accessed before load() completed",
+  "root_cause": "start() fires registry.load() without awaiting it, so subscriptions go live and the first message is handled before the registry is ready.",
+  "caught_by_existing_test": false,
+  "trigger": "bench/bugs/B06/trigger.ts"
+}

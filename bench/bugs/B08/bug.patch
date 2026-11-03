@@ -1,0 +1,13 @@
+diff --git a/apps/mqtt-sample/src/telemetry/telemetry-parser.service.ts b/apps/mqtt-sample/src/telemetry/telemetry-parser.service.ts
+index e60a285..13f2dae 100644
+--- a/apps/mqtt-sample/src/telemetry/telemetry-parser.service.ts
++++ b/apps/mqtt-sample/src/telemetry/telemetry-parser.service.ts
+@@ -115,7 +115,7 @@ export class TelemetryParserService {
+     const range = METRIC_RANGES[metric];
+     if (!range) return;
+     const [lo, hi] = range;
+-    if (value < lo || value > hi) {
++    if (value <= lo || value >= hi) {
+       throw new TelemetryValidationError(
+         `${metric} value ${value} is outside the allowed range [${lo}, ${hi}]`,
+         topic,

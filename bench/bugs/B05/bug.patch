@@ -1,0 +1,16 @@
+diff --git a/apps/mqtt-sample/src/mqtt/mqtt-client.service.ts b/apps/mqtt-sample/src/mqtt/mqtt-client.service.ts
+index b8e8813..26d2954 100644
+--- a/apps/mqtt-sample/src/mqtt/mqtt-client.service.ts
++++ b/apps/mqtt-sample/src/mqtt/mqtt-client.service.ts
+@@ -78,10 +78,10 @@ export class MqttClientService {
+   async close(): Promise<void> {
+     const client = this.client;
+     if (!client) return;
+-    await this.drain();
+     this.client = null;
+     this.subscriptions.length = 0;
+     await client.endAsync();
++    await this.drain();
+     logger.info('mqtt client closed');
+   }
+ 

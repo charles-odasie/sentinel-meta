@@ -1,0 +1,15 @@
+{
+  "id": "B04",
+  "class": "wildcard-logic",
+  "title": "$SYS guard rejects every filter containing a wildcard",
+  "file": "apps/mqtt-sample/src/telemetry/topic-matcher.service.ts",
+  "lines": [
+    22,
+    22
+  ],
+  "symptom": "UnroutedMessageError: broker delivered \"$SYS/hub-broker/heartbeat\" but no local subscription matches (subscribed: devices/+/telemetry, devices/+/children/+/telemetry, devices/+/status, $SYS/+/heartbeat)",
+  "error_signature": "UnroutedMessageError: broker delivered \"$SYS/hub-broker/heartbeat\" but no local subscription matches (subscribed: devices/+/telemetry, devices/+/children/+/telemetry, devices/+/status, $SYS/+/heartbeat)",
+  "root_cause": "The $-topic guard tests for any '+' or '#' anywhere in the filter instead of a wildcard in the first level, so '$SYS/+/heartbeat' never matches the broker heartbeat and dispatch finds no handler.",
+  "caught_by_existing_test": true,
+  "trigger": "bench/bugs/B04/trigger.ts"
+}

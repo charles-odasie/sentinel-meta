@@ -1,0 +1,18 @@
+{"ts":"2026-11-03T00:52:24.472Z","level":"info","service":"telemetry-hub","msg":"telemetry-hub starting","pid":3043,"node":"v22.23.4","env":"production"}
+{"ts":"2026-11-03T00:52:24.481Z","level":"info","service":"telemetry-hub","msg":"broker listening","port":42787,"brokerId":"hub-broker"}
+{"ts":"2026-11-03T00:52:24.573Z","level":"info","service":"telemetry-hub","msg":"mqtt client connected","port":42787,"clientId":"telemetry-hub-1"}
+{"ts":"2026-11-03T00:52:24.574Z","level":"info","service":"telemetry-hub","msg":"device registry loaded","devices":0}
+{"ts":"2026-11-03T00:52:24.587Z","level":"info","service":"telemetry-hub","msg":"ingest started","filters":["devices/+/telemetry","devices/+/children/+/telemetry","devices/+/status","$SYS/+/heartbeat"]}
+{"ts":"2026-11-03T00:52:24.635Z","level":"info","service":"telemetry-hub","msg":"job started","job":"metrics-report"}
+{"ts":"2026-11-03T00:52:24.635Z","level":"error","service":"telemetry-hub","msg":"job failed","job":"metrics-report"}
+TypeError: Cannot read properties of undefined (reading 'toFixed')
+    at round2 (apps/mqtt-sample/src/telemetry/retained-state.service.ts:18:19)
+    at RetainedStateService.aggregate (apps/mqtt-sample/src/telemetry/retained-state.service.ts:80:12)
+    at IngestService.summary (apps/mqtt-sample/src/telemetry/ingest.service.ts:72:35)
+    at <anonymous> (bench/bugs/B07/trigger.ts:15:31)
+    at job (bench/bugs/_shared/harness.ts:110:11)
+    at <anonymous> (bench/bugs/B07/trigger.ts:14:11)
+    at async run (bench/bugs/_shared/harness.ts:120:5)
+{"ts":"2026-11-03T00:52:24.642Z","level":"info","service":"telemetry-hub","msg":"mqtt client closed"}
+{"ts":"2026-11-03T00:52:24.642Z","level":"info","service":"telemetry-hub","msg":"ingest stopped","readings":3,"alerts":0,"statusUpdates":0,"brokerLastBeat":null}
+{"ts":"2026-11-03T00:52:24.642Z","level":"info","service":"telemetry-hub","msg":"telemetry-hub exited","errors":1}

@@ -1,0 +1,15 @@
+diff --git a/apps/mqtt-sample/src/telemetry/device-registry.service.ts b/apps/mqtt-sample/src/telemetry/device-registry.service.ts
+index fd25178..bc56cd9 100644
+--- a/apps/mqtt-sample/src/telemetry/device-registry.service.ts
++++ b/apps/mqtt-sample/src/telemetry/device-registry.service.ts
+@@ -93,8 +93,8 @@ export class DeviceRegistryService {
+     this.assertReady();
+     const out: DeviceRecord[] = [];
+     for (const d of this.devices.values()) {
+-      if (d.status === 'offline' || !d.lastSeen) continue;
+-      if (now.getTime() - d.lastSeen.getTime() > thresholdMs) out.push(d);
++      if (d.status === 'offline') continue;
++      if (now.getTime() - d.lastSeen!.getTime() > thresholdMs) out.push(d);
+     }
+     return out;
+   }

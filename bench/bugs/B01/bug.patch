@@ -1,0 +1,13 @@
+diff --git a/apps/mqtt-sample/src/telemetry/telemetry-parser.service.ts b/apps/mqtt-sample/src/telemetry/telemetry-parser.service.ts
+index e60a285..cea6119 100644
+--- a/apps/mqtt-sample/src/telemetry/telemetry-parser.service.ts
++++ b/apps/mqtt-sample/src/telemetry/telemetry-parser.service.ts
+@@ -124,7 +124,7 @@ export class TelemetryParserService {
+   }
+ 
+   private normaliseUnit(metric: string, unit: string | undefined): string {
+-    const key = (unit ?? DEFAULT_UNITS[metric] ?? '').toLowerCase().trim();
++    const key = (unit ?? DEFAULT_UNITS[metric]).toLowerCase().trim();
+     if (key === '') return '';
+     return UNIT_ALIASES[key] ?? key;
+   }
