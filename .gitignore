@@ -1,0 +1,9 @@
+node_modules/
+dist/
+coverage/
+.env
+.env.*
+!.env.example
+bench/results/**/work/
+docs/private/
+sentinel-out/
