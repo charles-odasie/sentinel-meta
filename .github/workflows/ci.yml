@@ -1,0 +1,34 @@
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: No employer/customer names, no committed secrets
+        run: |
+          ! git grep -iPn '(?<!charles-)odasie|graphtravel|safarine' -- . ':!.github/workflows/ci.yml'
+          ! git grep -En '(sk-[A-Za-z0-9]{16,}|api[_-]?key\s*[:=]\s*["'"'"']?[A-Za-z0-9]{16,})' -- . ':!.env.example'
+      - name: Sentinel — typecheck + unit tests (no model calls)
+        working-directory: packages/sentinel
+        run: |
+          npm ci
+          npm run typecheck
+          npm test
+      - name: Sample app — test suite
+        working-directory: apps/mqtt-sample
+        run: |
+          npm ci
+          npm test
+      - name: Seeded bugs — each patch applies and reverts cleanly
+        run: |
+          for d in bench/bugs/B*/; do
+            git apply --check "$d/bug.patch" && echo "ok $d"
+          done

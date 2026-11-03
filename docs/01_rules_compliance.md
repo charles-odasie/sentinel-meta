@@ -25,7 +25,7 @@ before submission (see §4).
 | 3-minute demo video, public, no login (`UNVERIFIED`) | Storyboard in PRD §3; YouTube unlisted/public; link in submission |
 | Up to 4 people; list everyone (`UNVERIFIED`) | Solo: Charles Gourlaouen. AI coding assistance is disclosed in the README (it is tooling, not a team member). |
 | Demo shows only hackathon work (`UNVERIFIED`) | The sample app is also new and in-repo; nothing pre-existing is shown |
-| No employer/customer code or data | Sample app is a generic IoT telemetry hub. CI greps the repo for forbidden names (`odasie`, `graphtravel`, `safarine`) and fails if found. |
+| No employer/customer code or data | Sample app is a generic IoT telemetry hub. CI greps the repo for the employer/customer names from the brief and fails if any is found (the GitHub handle in the repo URL is the only sanctioned occurrence). |
 | Meta tooling must be central (rubric 25%, `UNVERIFIED`) | All reasoning on **Muse Spark Open (open weights, via Baseten)**; fast steps on **Muse Glimmer 30B (via Fireworks)**; model names printed on screen in every run and in the Privacy Receipt |
 | Open-weight bonus (`UNVERIFIED`) | Primary path is open-weight only. The hosted `muse-spark-1.3` is a **fallback only** and is logged as such in the receipt when used. |
 | Most Viral: post on X, submit link (`UNVERIFIED`) | Draft text in `docs/private/04_submission_meta.md`; Charles posts |
